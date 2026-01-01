@@ -5,14 +5,75 @@ class GetInfo {
   static const MethodChannel _channel = MethodChannel('get_info');
 
   /// Returns the platform version, e.g., "Android 14"
-  static Future<String?> get platformVersion async {
-    final version = await _channel.invokeMethod<String>('getPlatformVersion');
+  static Future<String?> get androidVersion async {
+    final version = await _channel.invokeMethod<String>('ANDROID_VERSION');
     return version;
   }
 
-  /// Returns a map with device info
-  static Future<Map<String, dynamic>?> get deviceInfo async {
-    final info = await _channel.invokeMethod<Map>('getDeviceInfo');
-    return info?.cast<String, dynamic>();
+  static Future<String?> get androidVersionCode async {
+    final version = await _channel.invokeMethod<String>('ANDROID_VERSION_CODE');
+    return version;
   }
+
+  static Future<String?> get androidId async {
+    final version = await _channel.invokeMethod<String>('ANDROID_ID');
+    return version;
+  }
+
+  static Future<String?> get id async {
+    final version = await _channel.invokeMethod<String>('ID');
+    return version;
+  }
+
+
+  static Future<String?> get brand async {
+    final version = await _channel.invokeMethod<String>('BRAND');
+    return version;
+  }
+
+  static Future<String?> get device async {
+    final version = await _channel.invokeMethod<String>('DEVICE');
+    return version;
+  }
+
+  static Future<String?> get model async {
+    final version = await _channel.invokeMethod<String>('MODEL');
+    return version;
+  }
+
+  static Future<String?> get board async {
+    final version = await _channel.invokeMethod<String>('BOARD');
+    return version;
+  }
+
+  static Future<String?> get bootloader async {
+    final version = await _channel.invokeMethod<String>('BOOTLOADER');
+    return version;
+  }
+
+  static Future<String?> get display async {
+    final version = await _channel.invokeMethod<String>('DISPLAY');
+    return version;
+  }
+
+  static Future<String?> get fingerprint async {
+    final version = await _channel.invokeMethod<String>('FINGERPRINT');
+    return version;
+  }
+
+  static Future<String?> get hardware async {
+    final version = await _channel.invokeMethod<String>('HARDWARE');
+    return version;
+  }
+
+  static Future<String?> get manufacturer async {
+    final version = await _channel.invokeMethod<String>('MANUFACTURER');
+    return version;
+  }
+
+  static Future<String?> get sdkVersion async {
+    final version = await _channel.invokeMethod<String>('SDK_INT');
+    return version;
+  }
+
 }
