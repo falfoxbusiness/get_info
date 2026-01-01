@@ -1,6 +1,5 @@
 # Changelog
 
-## 1.0.0
-- Initial release
-- Supports `getPlatformVersion` and `deviceInfo`
-- Android and iOS supported
+## 1.0.1
+- Added some device information values
+- Bug Fixed
