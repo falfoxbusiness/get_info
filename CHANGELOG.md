@@ -1,5 +1,5 @@
 # Changelog
 
-## 1.0.1
+## 1.0.2
 - Added some device information values
 - Bug Fixed
