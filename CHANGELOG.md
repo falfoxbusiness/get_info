@@ -1,3 +1,6 @@
-## 0.0.1
+## 1.0.0
 
-* TODO: Describe initial release.
+- Initial release
+- Provides platform version
+- Provides basic device information
+- Android and iOS support
