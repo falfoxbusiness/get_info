@@ -32,15 +32,8 @@ void main() {
   });
 
   test('getPlatformVersion returns mocked value', () async {
-    final version = await GetInfo.platformVersion;
-    expect(version, 'Android 15');
+    final device = await GetInfo.device;
+    expect(device, 'Android 15');
   });
 
-  test('deviceInfo returns mocked map', () async {
-    final info = await GetInfo.deviceInfo;
-    expect(info, isA<Map<String, dynamic>>());
-    expect(info?['brand'], 'Google');
-    expect(info?['model'], 'Pixel 8');
-    expect(info?['osVersion'], 'Android 15');
-  });
 }

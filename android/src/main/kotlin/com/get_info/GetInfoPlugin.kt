@@ -26,7 +26,7 @@ class GetInfoPlugin: FlutterPlugin, MethodCallHandler {
     when (call.method) {
       "ANDROID_VERSION" -> result.success("Android ${Build.VERSION.RELEASE}")
       "ANDROID_VERSION_CODE" -> result.success(Build.VERSION.RELEASE)
-      "ANDROID_ID" -> result.success(Settings.Secure.ANDROID_ID)
+      "ANDROID_ID" -> result.success(getAndroidId(context))
       "ID" -> result.success(Build.ID)
       "BRAND" -> result.success(Build.BRAND)
       "DEVICE" -> result.success(Build.DEVICE)
@@ -42,6 +42,12 @@ class GetInfoPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
+  fun getAndroidId(context: Context): String {
+    return Settings.Secure.getString(
+      context.contentResolver,
+      Settings.Secure.ANDROID_ID
+    ) ?: ""
+  }
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
   }

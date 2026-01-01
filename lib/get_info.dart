@@ -71,8 +71,8 @@ class GetInfo {
     return version;
   }
 
-  static Future<String?> get sdkVersion async {
-    final version = await _channel.invokeMethod<String>('SDK_INT');
+  static Future<int?> get sdkVersion async {
+    final version = await _channel.invokeMethod<int>('SDK_INT');
     return version;
   }
 
