@@ -24,18 +24,20 @@ class GetInfoPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     when (call.method) {
-      "getPlatformVersion" -> result.success("Android ${Build.VERSION.RELEASE}")
-      "getDeviceInfo" -> {
-        val deviceInfo = mapOf(
-          "brand" to Build.BRAND,
-          "model" to Build.MODEL,
-          "device" to Build.DEVICE,
-          "id" to Build.ID,
-          "androidId" to Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID),
-          "versionSdk" to Build.VERSION.SDK_INT
-        )
-        result.success(deviceInfo)
-      }
+      "ANDROID_VERSION" -> result.success("Android ${Build.VERSION.RELEASE}")
+      "ANDROID_VERSION_CODE" -> result.success(Build.VERSION.RELEASE)
+      "ANDROID_ID" -> result.success(Settings.Secure.ANDROID_ID)
+      "ID" -> result.success(Build.ID)
+      "BRAND" -> result.success(Build.BRAND)
+      "DEVICE" -> result.success(Build.DEVICE)
+      "MODEL" -> result.success(Build.MODEL)
+      "BOARD" -> result.success(Build.BOARD)
+      "BOOTLOADER" -> result.success(Build.BOOTLOADER)
+      "DISPLAY" -> result.success(Build.DISPLAY)
+      "FINGERPRINT" -> result.success(Build.FINGERPRINT)
+      "HARDWARE" -> result.success(Build.HARDWARE)
+      "MANUFACTURER" -> result.success(Build.MANUFACTURER)
+      "SDK_INT" -> result.success(Build.VERSION.SDK_INT)
       else -> result.notImplemented()
     }
   }
