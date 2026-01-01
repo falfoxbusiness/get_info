@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.5
+- Bug Fixed
+
 ## 1.0.4
 - Bug Fixed
 

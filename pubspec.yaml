@@ -1,6 +1,6 @@
 name: get_info
 description: "A Flutter plugin to get device information for Android and iOS"
-version: 1.0.4
+version: 1.0.5
 homepage: https://falfox.com
 repository: https://github.com/falfoxbusiness/get_info
 issue_tracker: https://github.com/falfoxbusiness/get_info/issues
