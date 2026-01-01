@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.4
+- Bug Fixed
+
 ## 1.0.3
 - Added some device information values
 - Bug Fixed
