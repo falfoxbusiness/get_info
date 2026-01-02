@@ -55,13 +55,13 @@ AndroidManifest.xml:
 - Permission removal is safe if Wi-Fi APIs are not used
 - Recommended for apps targeting Google Play
 
-### Android Support
+## Android Support
 The plugin fully supports Android and provides access to device information, system status, battery details, and system settings shortcuts.
 - All APIs are implemented and production-ready
 - No additional setup required beyond standard permissions
 - Tested on multiple Android versions
 
-### iOS Support
+## iOS Support
 iOS support is currently under development.
 - APIs are not yet implemented on iOS
 - Methods may return null or be unavailable
