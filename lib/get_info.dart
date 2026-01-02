@@ -2,78 +2,91 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class GetInfo {
+  GetInfo._(); // Prevent instantiation
+
   static const MethodChannel _channel = MethodChannel('get_info');
 
-  /// Returns the platform version, e.g., "Android 14"
-  static Future<String?> get androidVersion async {
-    final version = await _channel.invokeMethod<String>('ANDROID_VERSION');
-    return version;
+  /// Generic method invoker with safety
+  static Future<T?> _invoke<T>(String method) async {
+    try {
+      return await _channel.invokeMethod<T>(method);
+    } on PlatformException {
+      return null;
+    }
   }
 
-  static Future<String?> get androidVersionCode async {
-    final version = await _channel.invokeMethod<String>('ANDROID_VERSION_CODE');
-    return version;
-  }
+  // ─────────────────── Device Info ───────────────────
 
-  static Future<String?> get androidId async {
-    final version = await _channel.invokeMethod<String>('ANDROID_ID');
-    return version;
-  }
+  static Future<String?> get getAndroidVersion =>
+      _invoke<String>('ANDROID_VERSION');
 
-  static Future<String?> get id async {
-    final version = await _channel.invokeMethod<String>('ID');
-    return version;
-  }
+  static Future<String?> get getAndroidVersionCode =>
+      _invoke<String>('ANDROID_VERSION_CODE');
 
+  static Future<String?> get getAndroidId =>
+      _invoke<String>('ANDROID_ID');
 
-  static Future<String?> get brand async {
-    final version = await _channel.invokeMethod<String>('BRAND');
-    return version;
-  }
+  static Future<String?> get getId =>
+      _invoke<String>('ID');
 
-  static Future<String?> get device async {
-    final version = await _channel.invokeMethod<String>('DEVICE');
-    return version;
-  }
+  static Future<String?> get getBrand =>
+      _invoke<String>('BRAND');
 
-  static Future<String?> get model async {
-    final version = await _channel.invokeMethod<String>('MODEL');
-    return version;
-  }
+  static Future<String?> get getDevice =>
+      _invoke<String>('DEVICE');
 
-  static Future<String?> get board async {
-    final version = await _channel.invokeMethod<String>('BOARD');
-    return version;
-  }
+  static Future<String?> get getModel =>
+      _invoke<String>('MODEL');
 
-  static Future<String?> get bootloader async {
-    final version = await _channel.invokeMethod<String>('BOOTLOADER');
-    return version;
-  }
+  static Future<String?> get getBoard =>
+      _invoke<String>('BOARD');
 
-  static Future<String?> get display async {
-    final version = await _channel.invokeMethod<String>('DISPLAY');
-    return version;
-  }
+  static Future<String?> get getBootloader =>
+      _invoke<String>('BOOTLOADER');
 
-  static Future<String?> get fingerprint async {
-    final version = await _channel.invokeMethod<String>('FINGERPRINT');
-    return version;
-  }
+  static Future<String?> get getDisplay =>
+      _invoke<String>('DISPLAY');
 
-  static Future<String?> get hardware async {
-    final version = await _channel.invokeMethod<String>('HARDWARE');
-    return version;
-  }
+  static Future<String?> get getFingerprintInfo =>
+      _invoke<String>('FINGERPRINT');
 
-  static Future<String?> get manufacturer async {
-    final version = await _channel.invokeMethod<String>('MANUFACTURER');
-    return version;
-  }
+  static Future<String?> get getHardware =>
+      _invoke<String>('HARDWARE');
 
-  static Future<int?> get sdkVersion async {
-    final version = await _channel.invokeMethod<int>('SDK_INT');
-    return version;
-  }
+  static Future<String?> get getManufacturer =>
+      _invoke<String>('MANUFACTURER');
 
+  static Future<int?> get getSdkVersion =>
+      _invoke<int>('SDK_INT');
+
+  static Future<int?> get getBatteryPercentage =>
+      _invoke<int>('getBatteryPercentage');
+
+  // ─────────────────── System States ───────────────────
+
+  static Future<bool?> get isLocationEnabled =>
+      _invoke<bool>('isLocationEnabled');
+
+  static Future<bool?> get isBluetoothEnabled =>
+      _invoke<bool>('isBluetoothEnabled');
+
+  static Future<bool?> get isWifiEnabled =>
+      _invoke<bool>('isWifiEnabled');
+
+  static Future<bool?> get isDeveloperOptionsEnabled =>
+      _invoke<bool>('isDeveloperOptionsEnabled');
+
+  static Future<bool?> get isBatteryCharging =>
+      _invoke<bool>('isBatteryCharging');
+
+  // ─────────────────── Open Settings ───────────────────
+
+  static Future<bool?> openBluetoothSettings() =>
+      _invoke<bool>('openBluetoothSettings');
+
+  static Future<bool?> openLocationSettings() =>
+      _invoke<bool>('openLocationSettings');
+
+  static Future<bool?> openWifiSettings() =>
+      _invoke<bool>('openWifiSettings');
 }
