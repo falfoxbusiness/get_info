@@ -1,98 +1,87 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:get_info/get_info.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const GetInfoExampleApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  String? version,androidVersion,androidVersionCode,id,board,bootloader,brand,
-      device,display,fingerprint,hardware,manufacturer,model;
-  int? sdkInt;
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-
-  Future<void> initPlatformState() async {
-    try {
-      final _version = await GetInfo.androidId;
-      final _androidVersion = await GetInfo.androidVersion;
-      final _androidVersionCode = await GetInfo.androidVersionCode;
-      final _id = await GetInfo.id;
-      final _board = await GetInfo.board;
-      final _bootloader = await GetInfo.bootloader;
-      final _brand = await GetInfo.brand;
-      final _device = await GetInfo.device;
-      final _display = await GetInfo.display;
-      final _fingerprint = await GetInfo.fingerprint;
-      final _hardware = await GetInfo.hardware;
-      final _manufacturer = await GetInfo.manufacturer;
-      final _model = await GetInfo.model;
-      final _sdkInt = await GetInfo.sdkVersion;
-
-      if (!mounted) return;
-
-      setState(() {
-        version = _version;
-        androidVersion = _androidVersion;
-        androidVersionCode = _androidVersionCode;
-        id = _id;
-        board = _board;
-        bootloader = _bootloader;
-        brand = _brand;
-        device = _device;
-        display = _display;
-        fingerprint = _fingerprint;
-        hardware = _hardware;
-        manufacturer = _manufacturer;
-        model = _model;
-        sdkInt = _sdkInt;
-      });
-    } on PlatformException catch (e) {
-      print("Failed to get device info: $e");
-    }
-  }
+class GetInfoExampleApp extends StatelessWidget {
+  const GetInfoExampleApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Falfox get_info')),
-        body: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Text(
-              'android_id: $version\n'
-                  'androidVersion: $androidVersion\n'
-                  'androidVersionCode: $androidVersionCode\n'
-                  'id: $id\n'
-                  'bootloader: $bootloader\n'
-                  'brand: $brand\n'
-                  'board: $board\n'
-                  'device: $device\n'
-                  'display: $display\n'
-                  'fingerprint: $fingerprint\n'
-                  'hardware: $hardware\n'
-                  'manufacturer: $manufacturer\n'
-                  'sdkInt: $sdkInt\n'
-                  'model: $model\n',
-            textAlign: TextAlign.start,
-          ),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      title: 'GetInfo Example',
+      theme: ThemeData(useMaterial3: true),
+      home: const DeviceInfoScreen(),
+    );
+  }
+}
+
+class DeviceInfoScreen extends StatefulWidget {
+  const DeviceInfoScreen({super.key});
+
+  @override
+  State<DeviceInfoScreen> createState() => _DeviceInfoScreenState();
+}
+
+class _DeviceInfoScreenState extends State<DeviceInfoScreen> {
+  final Map<String, String?> _deviceInfo = {};
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDeviceInfo();
+  }
+
+  Future<void> _loadDeviceInfo() async {
+    final info = <String, String?>{
+      'Android ID': await GetInfo.getAndroidId,
+      'Android Version': await GetInfo.getAndroidVersion,
+      'Android Version Code': await GetInfo.getAndroidVersionCode,
+      'SDK Version': (await GetInfo.getSdkVersion)?.toString(),
+      'Brand': await GetInfo.getBrand,
+      'Manufacturer': await GetInfo.getManufacturer,
+      'Model': await GetInfo.getModel,
+      'Device': await GetInfo.getDevice,
+      'Board': await GetInfo.getBoard,
+      'Bootloader': await GetInfo.getBootloader,
+      'Display': await GetInfo.getDisplay,
+      'Fingerprint': await GetInfo.getFingerprintInfo,
+      'Hardware': await GetInfo.getHardware,
+      'Battery %': (await GetInfo.getBatteryPercentage)?.toString(),
+    };
+
+    if (!mounted) return;
+
+    setState(() {
+      _deviceInfo
+        ..clear()
+        ..addAll(info);
+      _loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('get_info example'), centerTitle: true),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: _deviceInfo.length,
+              separatorBuilder: (_, __) => const Divider(height: 1),
+              itemBuilder: (context, index) {
+                final entry = _deviceInfo.entries.elementAt(index);
+                return ListTile(
+                  title: Text(entry.key),
+                  subtitle: Text(entry.value ?? 'Not available'),
+                );
+              },
+            ),
     );
   }
 }

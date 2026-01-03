@@ -3,37 +3,35 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_info/get_info.dart';
 
 void main() {
-  // Initialize Flutter binding
   TestWidgetsFlutterBinding.ensureInitialized();
 
   const MethodChannel channel = MethodChannel('get_info');
 
   setUp(() {
-    // Mock the MethodChannel calls
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
-      if (methodCall.method == 'getPlatformVersion') {
-        return 'Android 15';
-      } else if (methodCall.method == 'getDeviceInfo') {
-        return {
-          'brand': 'Google',
-          'model': 'Pixel 8',
-          'osVersion': 'Android 15',
-        };
+        .setMockMethodCallHandler(channel, (MethodCall call) async {
+      switch (call.method) {
+        case 'isWifiEnabled':
+          return true;
+        case 'isBluetoothEnabled':
+          return false;
       }
       return null;
     });
   });
 
   tearDown(() {
-    // Remove the mock after each test
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, null);
   });
 
-  test('getPlatformVersion returns mocked value', () async {
-    final device = await GetInfo.device;
-    expect(device, 'Android 15');
+  test('isWifiEnabled returns mocked value', () async {
+    final result = await GetInfo.isWifiEnabled;
+    expect(result, true);
   });
 
+  test('isBluetoothEnabled returns mocked value', () async {
+    final result = await GetInfo.isBluetoothEnabled;
+    expect(result, false);
+  });
 }
